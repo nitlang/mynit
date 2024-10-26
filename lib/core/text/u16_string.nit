@@ -243,8 +243,3 @@ redef class String
 		return n
 	end
 end
-
-redef class CString
-	# Returns a null `char *`
-	new nul `{ return NULL; `}
-end

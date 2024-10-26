@@ -97,6 +97,9 @@ extern class CString `{ char* `}
 	# Create a new `CString` with the capacity for `length` characters
 	new(length: Int) is intern
 
+	# Returns a null `char *`
+	new nul `{ return NULL; `}
+
 	# Get a char* starting at `index`.
 	#
 	# WARNING: Unsafe for extern code, use only for temporary
