@@ -305,7 +305,7 @@ redef class ABlockExpr
 				v.enter_visit(e)
 			else if not v.current_flow_context.is_already_unreachable then
 				v.current_flow_context.is_already_unreachable = true
-				v.toolcontext.error(e.hot_location, "Error: unreachable statement.")
+				v.toolcontext.warning(e.hot_location, "unreachable", "Warning: unreachable statement.")
 			end
 		end
 	end

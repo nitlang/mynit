@@ -59,8 +59,8 @@ private class LocalVarInitVisitor
 		assert variable != null
 		if not maybe_unset_vars.has(variable) then return
 
-		var flow = node.after_flow_context.as(not null)
-		flow.set_vars.add(variable)
+		var flow = node.after_flow_context
+		if flow != null then flow.set_vars.add(variable)
 	end
 
 	fun check_is_set(node: AExpr, variable: nullable Variable)
@@ -68,8 +68,8 @@ private class LocalVarInitVisitor
 		assert variable != null
 		if not maybe_unset_vars.has(variable) then return
 
-		var flow = node.after_flow_context.as(not null)
-		if not flow.is_variable_set(variable) then
+		var flow = node.after_flow_context
+		if flow != null and not flow.is_variable_set(variable) then
 			self.toolcontext.error(node.hot_location, "Error: possibly unset variable `{variable}`.")
 			# Remove the variable to avoid repeating errors
 			self.maybe_unset_vars.remove(variable)

@@ -632,9 +632,7 @@ private class TypeVisitor
 	fun set_variable(node: AExpr, variable: Variable, mtype: nullable MType)
 	do
 		var flow = node.after_flow_context
-		assert flow != null
-
-		flow.set_var(self, variable, mtype)
+		if flow != null then flow.set_var(self, variable, mtype)
 	end
 
 	# Find the exact representable most specific common super-type in `col`.
