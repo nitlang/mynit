@@ -18,10 +18,19 @@ module markdown_html_rendering
 import markdown_rendering
 import markdown_github
 import markdown_wikilinks
+import markdown_maths
+
+import md5
 
 # Markdown document renderer to HTML
 class HtmlRenderer
 	super MdRenderer
+
+	# Output directory for Maths mode images
+	#
+	# If `null`, do not generate images.
+	# Default: `null`.
+	var maths_img_outdir: nullable String = null is writable
 
 	# HTML output under construction
 	private var html: Buffer is noinit
@@ -454,5 +463,32 @@ redef class MdWikilink
 		v.add_raw "<wiki link=\"{v.encode_uri(link)}\">"
 		visit_all(v)
 		v.add_raw "</wiki>"
+	end
+end
+
+# Math mode
+
+redef class MdMaths
+	redef fun render_html(v) do
+		var out_dir = v.maths_img_outdir
+
+		if out_dir == null then
+			v.add_raw opening_delimiter
+			v.add_raw literal or else ""
+			v.add_raw closing_delimiter
+			return
+		end
+
+		# generate image
+		out_dir.mkdir
+		var maths = literal or else ""
+		var out = "{out_dir}/{maths.md5}.png"
+		if not out.file_exists then
+			sys.system "tex2im -o {out} -z -n -r 200x200 \"{maths.escape_to_sh}\""
+		end
+
+		v.add_raw "<img alt=\""
+		v.add_text literal or else ""
+		v.add_raw "\" src=\"{out}\" />"
 	end
 end

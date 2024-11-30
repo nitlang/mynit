@@ -18,6 +18,7 @@ module markdown_man_rendering
 import markdown_rendering
 import markdown_github
 import markdown_wikilinks
+import markdown_maths
 
 # Markdown document renderer to Manpage
 class ManRenderer
@@ -254,5 +255,15 @@ redef class MdWikilink
 		end
 		v.add link
 		v.add ")"
+	end
+end
+
+# Math mode
+
+redef class MdMaths
+	redef fun render_man(v) do
+		v.add "$"
+		v.add literal or else ""
+		v.add "$"
 	end
 end

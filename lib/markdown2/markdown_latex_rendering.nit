@@ -18,6 +18,7 @@ module markdown_latex_rendering
 import markdown_rendering
 import markdown_github
 import markdown_wikilinks
+import markdown_maths
 
 # Markdown document renderer to LaTeX
 class LatexRenderer
@@ -434,5 +435,15 @@ redef class MdWikilink
 		end
 		v.add_text link
 		v.add_raw "\}"
+	end
+end
+
+# Math mode
+
+redef class MdMaths
+	redef fun render_latex(v) do
+		v.add_raw "$"
+		v.add_raw literal or else ""
+		v.add_raw "$"
 	end
 end
