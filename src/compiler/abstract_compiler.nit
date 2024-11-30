@@ -387,7 +387,7 @@ endif
 ifeq ($(origin CXX), default)
         CXX = ccache c++
 endif
-CFLAGS ?= -g {{{if not debug then "-O2" else ""}}} -Wno-unused-value -Wno-switch -Wno-attributes -Wno-trigraphs
+CFLAGS ?= -g {{{if not debug then "-O2" else ""}}} -Wno-unused-value -Wno-switch -Wno-attributes -Wno-trigraphs -Wno-switch-unreachable
 CINCL =
 LDFLAGS ?=
 LDLIBS  ?= -lm {{{linker_options.join(" ")}}}
